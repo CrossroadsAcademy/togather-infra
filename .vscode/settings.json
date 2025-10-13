@@ -1,0 +1,16 @@
+// .vscode/settings.json
+{
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "biomejs.biome", // Force Biome for formatting
+
+	// Optional: disable other formatters for clarity
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "vscode.json-language-features"
+	}
+}

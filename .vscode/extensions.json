@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"googlecloudtools.cloudcode",
+		 // Official Biome extension
+	],
+	"unwantedRecommendations": [
+		"esbenp.prettier-vscode", // Prettier (disable in this repo)
+		"dbaeumer.vscode-eslint" // ESLint (disable in this repo, optional if migrating)
+	]
+}
