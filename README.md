@@ -20,7 +20,7 @@ Before you begin, ensure that the following tools are installed and configured o
     ```
 
 2.  **Run the bootstrap script:**
-    This script will clone all the necessary microservice repositories into a `togather-dev` directory and install Skaffold if it's not already present.
+    This script will clone all the necessary microservice repositories into a `togather-dev` directory and install Skaffold if it's not already present(works only for linux).
     ```bash
     ./bootstrap.sh
     ```
@@ -61,3 +61,5 @@ skaffold delete
 ## Common Mistakes & Troubleshooting
 
 *   **Root Skaffold Cleanup:** The root `skaffold.yaml` orchestrates the deployment of all submodules. If you modify it to remove a microservice, Skaffold's cleanup process will remove all previously deployed manifests for that service from the cluster. Be mindful of this when making changes to the root `skaffold.yaml`.
+
+* Uses ConfigMap for environment variables (non-secrets)
