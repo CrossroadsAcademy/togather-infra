@@ -10,6 +10,8 @@ Before you begin, ensure that the following tools are installed and configured o
 *   **Kubernetes:** A container orchestration platform. This setup assumes you have a running Kubernetes cluster.
 *   **kubectl:** The Kubernetes command-line tool. Ensure it is configured to connect to your cluster.
 *   **Skaffold:** A tool that automates the build, push, and deploy workflow for Kubernetes applications.
+*   **pnpm** A package manager and tooling to run scrips written in javascript.
+
 
 ## Getting Started
 
