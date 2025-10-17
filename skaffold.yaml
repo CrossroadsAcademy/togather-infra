@@ -5,8 +5,28 @@ metadata:
   name: togather-dev-infra
 
 requires:
-  - configs: ["togather-user-cfg"] # includes specific named configs within the file path. If empty, then all configs in the file are included.
-    path: ./../togather-user-service
+  - configs: ["togather-auth-cfg"]  # includes specific named configs within the file path. If empty, then all configs in the file are included.
+    path: ./micro-services/togather-auth-service
+  - configs: ["togather-booking-finance-cfg"] 
+    path: ./micro-services/togather-booking-finance-service  
+  - configs: ["togather-chat-cfg"] 
+    path: ./micro-services/togather-chat-service
+  - configs: ["togather-experience-cfg"] 
+    path: ./micro-services/togather-experience-service
+  - configs: ["togather-feed-cfg"] 
+    path: ./micro-services/togather-feed-service
+  - configs: ["togather-graphql-cfg"] 
+    path: ./micro-services/togather-graphql-service 
+  - configs: ["togather-location-cfg"] 
+    path: ./micro-services/togather-location-service 
+  - configs: ["togather-notification-cfg"] 
+    path: ./micro-services/togather-notification-service
+  - configs: ["togather-partner-cfg"]  
+    path: ./micro-services/togather-partner-service
+  - configs: ["togather-user-cfg"] 
+    path: ./micro-services/togather-user-service
+  - configs: ["togather-websocket-cfg"] 
+    path: ./micro-services/togather-websocket-service 
   # or reference remote git configs (see docs/tutorial for remote examples)
 
 manifests:

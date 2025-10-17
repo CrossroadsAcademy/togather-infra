@@ -2,10 +2,9 @@
 set -e  # Exit on error
 set -o pipefail
 
-# git clone -b develop https://github.com/CrossroadsAcademy/togather-user-service.git
-
 # --- CONFIG ---
-ROOT_DIR="$(pwd)/../togather-dev"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$SCRIPT_DIR/../"
 
    # TODO: need to add elastic search proxy
 REPOS=(
@@ -40,21 +39,55 @@ for repo in "${REPOS[@]}"; do
   name=$(basename "$repo" .git)
   log "Cloning $name"
   if [ ! -d "$name" ]; then
-    git clone -b develop "$repo"
-  else
-    log "$name already exists, manually pull the latest changes..."
-   #  (cd "$name" && git pull)
-  fi
+  git clone --no-single-branch "$repo"
+  (
+    cd "$name"
+    if git show-ref --verify --quiet refs/remotes/origin/develop; then
+      git checkout develop
+    else
+      log "No 'develop' branch found for $name, staying on default branch"
+    fi
+  )
+else
+  log "$name already exists, pulling latest changes from 'develop' or default branch..."
+  (
+    cd "$name"
+    # Fetch all branches/tags/etc.
+    git fetch
+    
+    # Try to checkout and pull 'develop', otherwise pull the current branch
+    if git show-ref --verify --quiet refs/remotes/origin/develop; then
+      git checkout develop
+      git pull
+    else
+      git pull # Pulls the current checked-out branch (e.g., main/master)
+    fi
+  )
+fi
 done
 
-log "Installing dependencies..."
-# Example: Install Skaffold, Docker, etc.
-if ! command -v skaffold &>/dev/null; then
-  log "Installing Skaffold..."
-  curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
-  sudo install skaffold /usr/local/bin/
+
+log "Installing infra npm dependencies..."
+
+# --- Check for pnpm installation ---
+if ! command -v pnpm &>/dev/null; then
+  log "pnpm is not installed. Please install pnpm to continue."
+  exit 1
 fi
 
-# log "Starting orchestration..."
-# cd infra
-# skaffold dev
+# --- Install dependencies ---
+cd $ROOT_DIR/togather-infra
+pnpm i
+
+
+# log "Installing dependencies..."
+# # Example: Install Skaffold, Docker, etc.
+# if ! command -v skaffold &>/dev/null; then
+#   log "Installing Skaffold..."
+#   curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
+#   sudo install skaffold /usr/local/bin/
+# fi
+
+# # log "Starting orchestration..."
+# # cd togather-dev/togather-infra
+# # skaffold dev
