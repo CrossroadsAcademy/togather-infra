@@ -3,7 +3,7 @@ set -e  # Exit on error
 set -o pipefail
 
 # --- CONFIG ---
-ROOT_DIR="$(pwd)/togather-dev"
+ROOT_DIR="$(pwd)/micro-services"
 
    # TODO: need to add elastic search proxy
 REPOS=(
