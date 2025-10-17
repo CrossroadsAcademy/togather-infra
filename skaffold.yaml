@@ -6,27 +6,27 @@ metadata:
 
 requires:
   - configs: ["togather-auth-cfg"]  # includes specific named configs within the file path. If empty, then all configs in the file are included.
-    path: ./../togather-auth-service
+    path: ./micro-services/togather-auth-service
   - configs: ["togather-booking-finance-cfg"] 
-    path: ./../togather-booking-finance-service  
+    path: ./micro-services/togather-booking-finance-service  
   - configs: ["togather-chat-cfg"] 
-    path: ./../togather-chat-service
+    path: ./micro-services/togather-chat-service
   - configs: ["togather-experience-cfg"] 
-    path: ./../togather-experience-service
+    path: ./micro-services/togather-experience-service
   - configs: ["togather-feed-cfg"] 
-    path: ./../togather-feed-service
+    path: ./micro-services/togather-feed-service
   - configs: ["togather-graphql-cfg"] 
-    path: ./../togather-graphql-service 
+    path: ./micro-services/togather-graphql-service 
   - configs: ["togather-location-cfg"] 
-    path: ./../togather-location-service 
+    path: ./micro-services/togather-location-service 
   - configs: ["togather-notification-cfg"] 
-    path: ./../togather-notification-service
+    path: ./micro-services/togather-notification-service
   - configs: ["togather-partner-cfg"]  
-    path: ./../togather-partner-service
+    path: ./micro-services/togather-partner-service
   - configs: ["togather-user-cfg"] 
-    path: ./../togather-user-service
+    path: ./micro-services/togather-user-service
   - configs: ["togather-websocket-cfg"] 
-    path: ./../togather-websocket-service 
+    path: ./micro-services/togather-websocket-service 
   # or reference remote git configs (see docs/tutorial for remote examples)
 
 manifests:

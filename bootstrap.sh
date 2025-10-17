@@ -7,7 +7,7 @@ ROOT_DIR="$(pwd)/micro-services"
 
    # TODO: need to add elastic search proxy
 REPOS=(
-  "https://github.com/CrossroadsAcademy/togather-infra.git"
+  # "https://github.com/CrossroadsAcademy/togather-infra.git"
   "https://github.com/CrossroadsAcademy/togather-user-service.git"
   "https://github.com/CrossroadsAcademy/togather-location-service.git"
   "https://github.com/CrossroadsAcademy/togather-experience-service.git"
