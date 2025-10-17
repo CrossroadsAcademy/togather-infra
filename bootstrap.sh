@@ -2,14 +2,12 @@
 set -e  # Exit on error
 set -o pipefail
 
-# git clone -b develop https://github.com/CrossroadsAcademy/togather-user-service.git
-
 # --- CONFIG ---
-ROOT_DIR="$(pwd)/../togather-dev"
+ROOT_DIR="$(pwd)/togather-dev"
 
    # TODO: need to add elastic search proxy
 REPOS=(
-  # "https://github.com/CrossroadsAcademy/togather-infra.git"
+  "https://github.com/CrossroadsAcademy/togather-infra.git"
   "https://github.com/CrossroadsAcademy/togather-user-service.git"
   "https://github.com/CrossroadsAcademy/togather-location-service.git"
   "https://github.com/CrossroadsAcademy/togather-experience-service.git"
@@ -40,21 +38,28 @@ for repo in "${REPOS[@]}"; do
   name=$(basename "$repo" .git)
   log "Cloning $name"
   if [ ! -d "$name" ]; then
-    git clone -b develop "$repo"
-  else
-    log "$name already exists, manually pull the latest changes..."
-   #  (cd "$name" && git pull)
-  fi
+  git clone --no-single-branch "$repo"
+  (
+    cd "$name"
+    if git show-ref --verify --quiet refs/remotes/origin/develop; then
+      git checkout develop
+    else
+      log "No 'develop' branch found for $name, staying on default branch"
+    fi
+  )
+else
+  log "$name already exists, manually pull the latest changes..."
+fi
 done
 
-log "Installing dependencies..."
-# Example: Install Skaffold, Docker, etc.
-if ! command -v skaffold &>/dev/null; then
-  log "Installing Skaffold..."
-  curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
-  sudo install skaffold /usr/local/bin/
-fi
+# log "Installing dependencies..."
+# # Example: Install Skaffold, Docker, etc.
+# if ! command -v skaffold &>/dev/null; then
+#   log "Installing Skaffold..."
+#   curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
+#   sudo install skaffold /usr/local/bin/
+# fi
 
-# log "Starting orchestration..."
-# cd infra
-# skaffold dev
+# # log "Starting orchestration..."
+# # cd togather-dev/togather-infra
+# # skaffold dev
