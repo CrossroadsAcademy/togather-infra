@@ -48,7 +48,20 @@ for repo in "${REPOS[@]}"; do
     fi
   )
 else
-  log "$name already exists, manually pull the latest changes..."
+  log "$name already exists, pulling latest changes from 'develop' or default branch..."
+  (
+    cd "$name"
+    # Fetch all branches/tags/etc.
+    git fetch
+    
+    # Try to checkout and pull 'develop', otherwise pull the current branch
+    if git show-ref --verify --quiet refs/remotes/origin/develop; then
+      git checkout develop
+      git pull
+    else
+      git pull # Pulls the current checked-out branch (e.g., main/master)
+    fi
+  )
 fi
 done
 
