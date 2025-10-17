@@ -13,8 +13,8 @@ const kafka = new Kafka({
   },
   sasl: {
     mechanism: "scram-sha-256",
-    username: "username added used setup auth sh",
-    password: "password added used  setup auth sh",
+    username: "fizan",
+    password: "123123",
   },
   // hosted username and password is in infisical
 });
