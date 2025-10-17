@@ -3,7 +3,8 @@ set -e  # Exit on error
 set -o pipefail
 
 # --- CONFIG ---
-ROOT_DIR="$(pwd)/micro-services"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$SCRIPT_DIR/../"
 
    # TODO: need to add elastic search proxy
 REPOS=(
@@ -75,6 +76,7 @@ if ! command -v pnpm &>/dev/null; then
 fi
 
 # --- Install dependencies ---
+cd $ROOT_DIR/togather-infra
 pnpm i
 
 
