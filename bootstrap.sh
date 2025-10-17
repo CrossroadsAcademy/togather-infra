@@ -65,6 +65,19 @@ else
 fi
 done
 
+
+log "Installing infra npm dependencies..."
+
+# --- Check for pnpm installation ---
+if ! command -v pnpm &>/dev/null; then
+  log "pnpm is not installed. Please install pnpm to continue."
+  exit 1
+fi
+
+# --- Install dependencies ---
+pnpm i
+
+
 # log "Installing dependencies..."
 # # Example: Install Skaffold, Docker, etc.
 # if ! command -v skaffold &>/dev/null; then
