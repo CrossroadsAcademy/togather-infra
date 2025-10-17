@@ -55,7 +55,7 @@ This will build, push, and deploy all the applications, and then tail the logs f
 
 ### Starting a Specific Microservice
 
-If you want to work on a single microservice, you can run Skaffold from within that micro-services's directory. This will only build and deploy that specific service.
+If you want to work on a single microservice, you can run Skaffold from within that micro-service's directory. This will only build and deploy that specific service.
 
 ```bash
 cd micro-services/<microservice-repo>
