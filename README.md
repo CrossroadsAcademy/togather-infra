@@ -17,12 +17,14 @@ Before you begin, ensure that the following tools are installed and configured o
 
 1.  **Clone the repository:**
     ```bash
+    mkdir togather-dev
+    cd togather-dev
     git clone https://github.com/CrossroadsAcademy/togather-infra.git
     cd togather-infra
     ```
 
 2.  **Run the bootstrap script:**
-    This script will clone all the necessary microservice repositories into a `togather-dev` directory
+    This script will clone all the necessary microservice repositories into a same parent folder as `togather-infra `
     ```bash
     chmod +x bootstrap.sh
     ./bootstrap.sh
@@ -71,6 +73,8 @@ skaffold delete
 ## Best Practices
 
 * Uses ConfigMap for environment variables (non-secrets)
+* Always **open each micro-services in a new IDE**, rather than opening all the infrastructure in a single IDE, which can improve system resources and commting to wrong repo or infra repo my mistake*  
+* **Resource Management:** Each microservice should have its resource requests and limits defined in its Kubernetes deployment configuration. This ensures that your applications run efficiently and don't starve other services of resources.
 
 
 ## Common Mistakes & Troubleshooting
