@@ -49,7 +49,7 @@ echo "3. GatewayClass"
 if kubectl get gatewayclass ${GATEWAY_CLASS_NAME} &> /dev/null; then
     STATUS=$(kubectl get gatewayclass ${GATEWAY_CLASS_NAME} -o jsonpath='{.status.conditions[?(@.type=="Accepted")].status}')
     if [ "$STATUS" = "True" ]; then
-        echo -e "${GREEN}Accepted${NC} "
+        echo -e "${GREEN}Accepted${NC}"
     else
         echo -e "   ${YELLOW}Status${NC}: $STATUS"
     fi
