@@ -66,7 +66,7 @@ if kubectl get gateway ${GATEWAY_NAME} -n ${NAMESPACE} &> /dev/null; then
     STATUS=$(kubectl get gateway ${GATEWAY_NAME} -n ${NAMESPACE} \
         -o jsonpath='{.status.conditions[?(@.type=="Programmed")].status}')
     if [ "$STATUS" = "True" ]; then
-        echo -e "   ${GREEN}Programmed${NC} "
+        echo -e "   ${GREEN}Programmed${NC}"
     else
         echo -e "   ${YELLOW}Status${NC}: $STATUS"
     fi
