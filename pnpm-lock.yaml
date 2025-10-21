@@ -17,6 +17,9 @@ importers:
       '@commitlint/cz-commitlint':
         specifier: ^20.1.0
         version: 20.1.0(@types/node@24.8.1)(commitizen@4.3.1(@types/node@24.8.1)(typescript@5.9.3))(inquirer@9.3.8(@types/node@24.8.1))(typescript@5.9.3)
+      '@commitlint/types':
+        specifier: ^20.0.0
+        version: 20.0.0
       commitizen:
         specifier: ^4.3.1
         version: 4.3.1(@types/node@24.8.1)(typescript@5.9.3)

@@ -6,9 +6,11 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' 
+# for release versions
+# https://hub.docker.com/r/envoyproxy/gateway-helm/tags
+# https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.4.0
 
-
-
+# load the env from the file 
 source ./networking.env
 
 # verify if kubectl
@@ -74,4 +76,19 @@ echo -e "${GREEN}Ready to recive Trafic${NC}\n"
 
 # Apply Gateway resources
 
+echo "Applying Gateway resources..."
+kubectl apply -f ./envoy-gateway/gateway-class.yaml
+kubectl apply -f ./envoy-gateway/gateway.yaml
+sleep 5
 
+kubectl wait --timeout=2m \
+		-n ${NAMESPACE} \
+		gateway/${GATEWAY_NAME} \
+		--for=condition=Programmed || echo "Gateway may still be starting"
+
+echo "Gateway resources applied"
+
+# apply routs
+echo "Applying routes..."
+kubectl apply -f ./routes/
+echo "Routes applied"
