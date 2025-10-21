@@ -1,0 +1,21 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: cors
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: demoservice-route
+  cors:
+    allowOrigins:
+      - "http://localhost:4000"
+    allowMethods:
+      - GET
+      - POST
+    allowHeaders:
+      - "x-header-1"
+    exposeHeaders:
+      - "x-header-2"
+    allowCredentials: true
+# https://gateway.envoyproxy.io/docs/api/extension_types/#cors

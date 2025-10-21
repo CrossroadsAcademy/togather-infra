@@ -289,3 +289,7 @@ curl http://$GATEWAY_IP/api/v1/myservice
 
 **Last Updated**: 21/10/2025
 **Maintained By**: Togather Team
+
+<!-- rate limiting -->
+
+Rate limits are applied per route, even if the BackendTrafficPolicy targets a Gateway. For example, if the limit is 100r/s and a Gateway has 3 routes, each route has its own 100r/s bucket.
