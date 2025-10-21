@@ -29,9 +29,15 @@ networking/
 
 ```bash
 # Install everything
+
+chmod +x ./install.sh
+
 ./install.sh
 
 # Verify installation
+
+chmod +x ./verify.sh
+
 ./verify.sh
 
 curl localhost:4100 # or port specified on gateway.yaml

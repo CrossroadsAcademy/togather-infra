@@ -28,6 +28,7 @@ help:
 	@echo  "  $(BOLD)make verify$(RESET)           - Verify installation"
 	@echo  "  $(BOLD)make clean$(RESET)            - Remove everything"
 	@echo  "  $(BOLD)make clean-all$(RESET)        - Remove everything including CRDs"
+	@echo  "  $(BOLD)make gateway-upgrade$(RESET)     - upgrade envoy gateway with values.yaml"
 
 
 install-crds:
@@ -92,7 +93,7 @@ clean:
 	@kubectl delete -f ./envoy-gateway/gateway-class.yaml --ignore-not-found
 	@helm uninstall eg -n $(NAMESPACE) || true
 	@echo "$(CYAN)Terminating Namespace: $(NAMESPACE)$(RESET)"
-	@echo "$(RED)may take some time....$(RESET)"
+	@echo "$(RED)may take some time...$(RESET)"
 	@kubectl delete namespace $(NAMESPACE) --ignore-not-found
 	@echo "$(GREEN)Cleanup complete (CRDs preserved)$(RESET)"
 
@@ -100,3 +101,9 @@ clean-all: clean
 	@echo "$(MAGENTA)Removing Gateway API CRDs...$(RESET)"
 	@kubectl delete -f https://github.com/kubernetes-sigs/gateway-api/releases/download/$(GATEWAY_API_VERSION)/standard-install.yaml --ignore-not-found
 	@echo "$(GREEN) Complete cleanup (including CRDs)$(RESET)"
+gateway-upgrade: 
+	@helm upgrade eg oci://docker.io/envoyproxy/gateway-helm \
+ 		--version $(ENVOY_GATEWAY_VERSION) \
+	     -n envoy-gateway \
+		 -f $(FILE_NAME) \
+ 		 --reuse-values
