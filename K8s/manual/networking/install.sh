@@ -93,7 +93,7 @@ echo -e "${GREEN}Gateway resources applied${NC}\n"
 
 # add deployments call here
 
-# apply routs
+# apply routes
 echo -e "${MAGENTA}Applying routes...${NC}\n"
 kubectl apply -f ./routes/
 echo -e "${GREEN}Routes applied${NC}\n"
