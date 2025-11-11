@@ -25,6 +25,7 @@ help:
 	@echo  "  $(BOLD)make install$(RESET)          - Full installation (CRDs + Gateway + Resources)"
 	@echo  "  $(BOLD)make apply-gateway$(RESET)    - Apply Gateway resources"
 	@echo  "  $(BOLD)make apply-routes$(RESET)     - Apply all routes"
+	@echo  "  $(BOLD)make deploy-services$(RESET)  - Deploy Togather services (routes + rate limits)"
 	@echo  "  $(BOLD)make verify$(RESET)           - Verify installation"
 	@echo  "  $(BOLD)make clean$(RESET)            - Remove everything"
 	@echo  "  $(BOLD)make clean-all$(RESET)        - Remove everything including CRDs"
@@ -72,6 +73,10 @@ apply-routes:
 	@echo "$(MAGENTA)Applying routes...(RESET)"
 	@kubectl apply -f ./routes/
 	@echo "$(GREEN)Routes applied(RESET)"
+
+deploy-services:
+	@echo "$(MAGENTA)Deploying Togather Services...$(RESET)"
+	@./deploy-services.sh
 
 
 install: install-gateway apply-gateway apply-routes
