@@ -8,8 +8,27 @@ echo "=========================================="
 # Colors for output
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
 
+# Check for required dependencies
+echo "Checking dependencies..."
+if ! command -v jq &> /dev/null; then
+    echo -e "${RED}Error: jq is not installed${NC}"
+    echo "Please install jq to continue:"
+    echo "  - Ubuntu/Debian: sudo apt-get install jq"
+    echo "  - macOS: brew install jq"
+    echo "  - RHEL/CentOS: sudo yum install jq"
+    exit 1
+fi
+
+if ! command -v kubectl &> /dev/null; then
+    echo -e "${RED}Error: kubectl is not installed${NC}"
+    echo "Please install kubectl to continue."
+    exit 1
+fi
+
+echo -e "${GREEN}✓ All dependencies found${NC}"
 echo ""
 echo -e "${YELLOW}Step 1: Applying HTTPRoutes${NC}"
 echo "=========================================="
@@ -82,7 +101,7 @@ echo "  -H 'Content-Type: application/json' \\"
 echo "  -d '{\"firstName\":\"Test\",\"lastName\":\"User\",\"email\":\"test@example.com\",\"password\":\"Test@1234\"}'"
 echo ""
 echo "# Test Auth Service Verification (Rate Limited: 1/min)"
-echo "curl -X POST http://${GATEWAY_IP}:${GATEWAY_PORT}/api/v1/auth/user/verify \\"
+echo "curl -X POST http://${GATEWAY_IP}:${GATEWAY_PORT}/api/v1/auth/user/verify-email \\"
 echo "  -H 'Content-Type: application/json' \\"
 echo "  -d '{\"email\":\"test@example.com\",\"code\":\"123456\"}'"
 echo ""

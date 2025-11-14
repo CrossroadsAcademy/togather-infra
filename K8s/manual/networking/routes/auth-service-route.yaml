@@ -14,23 +14,6 @@ spec:
   # - "api.togather.com"
   
   rules:
-    # Health check endpoint - rewrite /api/v1/auth/health to /api/v1/health
-    - matches:
-        - path:
-            type: Exact
-            value: /api/v1/auth/health
-      
-      filters:
-        - type: URLRewrite
-          urlRewrite:
-            path:
-              type: ReplaceFullPath
-              replaceFullPath: /api/v1/health
-      
-      backendRefs:
-        - name: auth-srv
-          port: 3000
-    
     # Auth endpoints
     - matches:
         - path:
