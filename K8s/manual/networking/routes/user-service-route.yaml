@@ -1,0 +1,24 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: user-service-route
+  labels:
+    app: togather
+    service: user-srv
+spec:
+  parentRefs:
+    - name: togather-gateway
+      namespace: envoy-gateway
+  
+  # hostnames:
+  # - "api.togather.com"
+  
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api/v1/user
+      
+      backendRefs:
+        - name: user-srv
+          port: 3000
