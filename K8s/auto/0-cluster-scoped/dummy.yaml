@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dummy-secret-secret
+type: Opaque
+stringData:
+  timestampsec: "TODO-REPLACE"

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dummy-secret-obs
+type: Opaque
+stringData:
+  TYMESTAP_OBS: "TODO-REPLACE"
