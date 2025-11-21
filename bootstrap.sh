@@ -76,7 +76,7 @@ if ! command -v pnpm &>/dev/null; then
 fi
 
 # --- Install dependencies ---
-cd $ROOT_DIR/togather-infra
+cd "$ROOT_DIR/togather-infra"
 pnpm i
 
 
