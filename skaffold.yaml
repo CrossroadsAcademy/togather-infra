@@ -1,37 +1,53 @@
 apiVersion: skaffold/v4beta13
 kind: Config
+metadata:
+  name: togather-base-infra
+
+manifests:
+  rawYaml:
+    - ./K8s/auto/0-cluster-scoped/*
+    - ./K8s/auto/1-infrastructure/*
+
+deploy:
+  kubectl: {}
+
+---
+apiVersion: skaffold/v4beta13
+kind: Config
 
 metadata:
   name: togather-dev-infra
 
 requires:
-  - configs: ["togather-auth-cfg"]  # includes specific named configs within the file path. If empty, then all configs in the file are included.
+  - configs: ["togather-base-infra"]
+  - configs: ["togather-auth-cfg"] # includes specific named configs within the file path. If empty, then all configs in the file are included.
     path: ./../togather-auth-service
-  - configs: ["togather-booking-finance-cfg"] 
-    path: ./../togather-booking-finance-service  
-  - configs: ["togather-chat-cfg"] 
+  - configs: ["togather-booking-finance-cfg"]
+    path: ./../togather-booking-finance-service
+  - configs: ["togather-chat-cfg"]
     path: ./../togather-chat-service
-  - configs: ["togather-experience-cfg"] 
+  - configs: ["togather-experience-cfg"]
     path: ./../togather-experience-service
-  - configs: ["togather-feed-cfg"] 
+  - configs: ["togather-feed-cfg"]
     path: ./../togather-feed-service
-  - configs: ["togather-graphql-cfg"] 
-    path: ./../togather-graphql-service 
-  - configs: ["togather-location-cfg"] 
-    path: ./../togather-location-service 
-  - configs: ["togather-notification-cfg"] 
+  - configs: ["togather-graphql-cfg"]
+    path: ./../togather-graphql-service
+  - configs: ["togather-location-cfg"]
+    path: ./../togather-location-service
+  - configs: ["togather-notification-cfg"]
     path: ./../togather-notification-service
-  - configs: ["togather-partner-cfg"]  
+  - configs: ["togather-partner-cfg"]
     path: ./../togather-partner-service
-  - configs: ["togather-user-cfg"] 
+  - configs: ["togather-user-cfg"]
     path: ./../togather-user-service
-  - configs: ["togather-websocket-cfg"] 
-    path: ./../togather-websocket-service 
+  - configs: ["togather-websocket-cfg"]
+    path: ./../togather-websocket-service
   # or reference remote git configs (see docs/tutorial for remote examples)
 
 manifests:
-  rawYaml:
-    - ./K8s/auto/* # DB, kafka, redis, etc.
+  rawYaml: # DB, kafka, redis, etc.
+    - ./K8s/auto/3-networking/*
+    - ./K8s/auto/4-observability/*
 
 # build is handled in each module - we can skip this in the orchestration.
 # build:

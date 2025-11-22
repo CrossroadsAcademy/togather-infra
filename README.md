@@ -29,7 +29,16 @@ Before you begin, ensure that the following tools are installed and configured o
     chmod +x bootstrap.sh
     ./bootstrap.sh
     ```
-3. **Staring the Cluster**
+3. **Setup the infisial credential for Cluster wide**
+    This scrtipt will help generate a Kubernetes secret manifest for infisical
+    > 🚧 Apply the generated infisical manifest file before starting the cluster
+    
+    ```bash
+    chmod +x ./scripts/setup-infisical-secret.sh
+    ./scripts/setup-infisical-secret.sh
+    ```
+
+4. **Staring the Cluster**
 
     ```bash
     skaffold dev
@@ -45,7 +54,7 @@ The `skaffold.yaml` file in this repository is the main entry point for orchestr
 
 To deploy all the microservices and infrastructure components defined in this repository, run the following command from the root of the `infra` directory:
 
->Note: Make sure that, you have run the `bootstrap.sh` script and the mirosrcies source code is cloned succesfully before starting the infrastucture
+>Note: Make sure that, you have run the `bootstrap.sh` script and the microservices source code is cloned succesfully before starting the infrastucture
 
 ```bash
 skaffold dev
@@ -61,6 +70,8 @@ If you want to work on a single microservice, you can run Skaffold from within t
 cd micro-services/<microservice-repo>
 skaffold dev
 ```
+> ⚠️ Make sure the Infisical secrets is available in the cluster.
+> If not run `scripts/setup-infisical-secret.sh` to set it up.
 
 ### Tearing Down the Infrastructure
 
