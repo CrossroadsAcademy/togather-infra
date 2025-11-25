@@ -3,3 +3,4 @@ node_modules
 kafka-0-creds
 kafka-1-creds
 kafka-2-creds
+secrets.yaml
