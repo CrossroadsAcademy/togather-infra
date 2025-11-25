@@ -1,0 +1,20 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: jwt-auth
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: togather-gateway
+  jwt:
+    providers:
+      - name: jwt-auth
+        localJWKS:
+          type: ValueRef
+          valueRef:
+            group: ""
+            kind: Secret
+            name: jwt-symmetric-key
+# https://gateway.envoyproxy.io/docs/tasks/security/jwt-authentication/
+#  we are using symmetric keys  and local secrect management
