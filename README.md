@@ -73,6 +73,23 @@ skaffold dev
 > ⚠️ Make sure the Infisical secrets is available in the cluster.
 > If not run `scripts/setup-infisical-secret.sh` to set it up.
 
+
+### Starting a Subset of Microservices
+
+You can start specific microservices by using the `--module` flag followed by the configuration name of the micro-service. The configuration names can be found in the root `skaffold.yaml` file.
+
+In the root `skaffold.yaml` path run,
+
+```bash
+skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-notification-cfg
+```
+
+Alternatively, you can use the `Makefile` to simplify these long commands. Save your specific command configurations in the `Makefile` and run them easily:
+
+```bash
+make <command_name>
+```
+
 ### Tearing Down the Infrastructure
 
 To delete all the Kubernetes resources deployed by Skaffold, run the following command from the root of the `infra` directory:
