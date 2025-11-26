@@ -7,6 +7,7 @@ manifests:
   rawYaml:
     - ./K8s/auto/0-cluster-scoped/*
     - ./K8s/auto/1-infrastructure/*
+    - ./K8s/auto/3-networking/*
 
 deploy:
   kubectl: {}

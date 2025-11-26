@@ -17,14 +17,11 @@ spec:
             - headers:
                 - name: ":path"
                   value: "/api/v1/auth/user/verify-email"
-            - sourceIP: true
           limit:
             requests: 1
             unit: Minute
-        
         # Default rate limit for other auth endpoints: 100 requests per minute per source IP
         - clientSelectors:
-            - sourceIP: true
           limit:
             requests: 100
             unit: Minute

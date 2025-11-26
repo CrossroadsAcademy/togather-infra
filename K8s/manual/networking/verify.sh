@@ -30,8 +30,16 @@ fi
 echo ""
 echo "Envoy Gateway Deployment"
 if kubectl get deployment envoy-gateway -n ${NAMESPACE} &> /dev/null; then
-    READY=$(kubectl get deployment ${GATEWAY_NAME} -n ${NAMESPACE} -o jsonpath='{.status.readyReplicas}')
-    DESIRED=$(kubectl get deployment ${GATEWAY_NAME} -n ${NAMESPACE} -o jsonpath='{.spec.replicas}')
+DATA_PLANE=$(kubectl get deploy -n $NAMESPACE \
+  -l gateway.envoyproxy.io/owning-gateway-name=${GATEWAY_NAME} \
+  -o jsonpath='{.items[0].metadata.name}')
+
+echo "Data-plane deployment: $DATA_PLANE"
+
+# check status
+READY=$(kubectl get deploy $DATA_PLANE -n $NAMESPACE -o jsonpath='{.status.readyReplicas}')
+DESIRED=$(kubectl get deploy $DATA_PLANE -n $NAMESPACE -o jsonpath='{.spec.replicas}')
+
     if [ "$READY" = "$DESIRED" ]; then
         echo -e "   ${GREEN}Ready${NC}  ($READY/$DESIRED)"
     else
