@@ -3,15 +3,16 @@ kind: BackendTrafficPolicy
 metadata:
   name: local-ratelimit
 spec:
-  targetRefs:
+  targetSelectors:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
-      name: demoservice-route # targetting demoservice route
+      matchLabels:
+        ratelimit: enabled
   rateLimit:
     type: Local
     local:
       rules:
         - limit:
-            requests: 50
+            requests: 100
             unit: Minute
 # https://gateway.envoyproxy.io/docs/concepts/gateway_api_extensions/backend-traffic-policy/#precedence

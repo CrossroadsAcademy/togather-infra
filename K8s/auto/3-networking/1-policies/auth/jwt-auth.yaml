@@ -7,7 +7,7 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       matchLabels:
-        security: secret # this is the label we added to the route that needs jwt auth secutiry
+        jwt: enabled # this is the label we added to the route that needs jwt auth secutiry
   jwt:
     providers:
       - name: jwt-auth
