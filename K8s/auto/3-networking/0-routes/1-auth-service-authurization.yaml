@@ -7,7 +7,6 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: auth-service-admin-route
-      # sectionName: admin-protected
   jwt:
     providers:
       - name: jwt-auth

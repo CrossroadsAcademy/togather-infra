@@ -63,17 +63,6 @@ spec:
         - name: auth-srv
           port: 3000
 
-    # - name: admin-protected
-    #   matches:
-    #     - path:
-    #         type: PathPrefix
-    #         value: /api/v1/auth/admin/2fa/initiate
-    #     - path:
-    #         type: PathPrefix
-    #         value: /api/v1/auth/admin/2fa/enable
-    #   backendRefs:
-    #     - name: auth-srv
-    #       port: 3000
 
     - name: auth-protected
       matches:
@@ -83,24 +72,24 @@ spec:
       backendRefs:
         - name: auth-srv
           port: 3000
-# ---
-# apiVersion: gateway.envoyproxy.io/v1alpha1
-# kind: SecurityPolicy
-# metadata:
-#   name: public-auth
-# spec:
-#   targetRefs:
-#     - group: gateway.networking.k8s.io
-#       kind: HTTPRoute
-#       name: auth-service-route
-#       sectionName: admin-public
-#     - group: gateway.networking.k8s.io
-#       kind: HTTPRoute
-#       name: auth-service-route
-#       sectionName: health-public
-#     - group: gateway.networking.k8s.io
-#       kind: HTTPRoute
-#       name: auth-service-route
-#       sectionName: user-public
-#   # no jwt here → overrides parent and disables auth on these rules
-#   # this config will be overriding the jwt security policy set on other http route sections
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: public-auth
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: auth-service-route
+      sectionName: admin-public
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: auth-service-route
+      sectionName: health-public
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: auth-service-route
+      sectionName: user-public
+  # no jwt here → overrides parent and disables auth on these rules
+  # this config will be overriding the jwt security policy set on other http route sections
