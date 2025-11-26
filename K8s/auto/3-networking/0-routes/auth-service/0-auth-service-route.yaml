@@ -6,7 +6,7 @@ metadata:
     app: togather
     service: auth-srv
     jwt: enabled # enables the jwt security policy
-    ratelimit: enabled # enables ratelimiter
+    ratelimitGlobal: enabled # enables ratelimiter
 spec:
   parentRefs:
     - name: togather-gateway
