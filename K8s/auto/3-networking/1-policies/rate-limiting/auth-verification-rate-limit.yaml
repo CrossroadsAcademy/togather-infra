@@ -1,0 +1,21 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: auth-verification-ratelimit
+  namespace: default
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: auth-service-route
+  rateLimit:
+    type: Local
+    local:
+      rules:
+        - clientSelectors:
+            - path:
+                type: RegularExpression
+                value: ^/api/v1/auth/.*/user/verify-email$
+          limit:
+            requests: 1
+            unit: Minute

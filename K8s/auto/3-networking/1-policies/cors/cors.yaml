@@ -9,13 +9,17 @@ spec:
       name: togather-gateway
   cors:
     allowOrigins:
-      - "http://localhost:4000"
+      - "http://localhost:5173"
+      - "http://localhost:5174" # added a backup
     allowMethods:
       - GET
       - POST
-    allowHeaders:
-      - "x-header-1"
-    exposeHeaders:
-      - "x-header-2"
+      - PATCH
+      - DELETE
+      - PUT
+    # allowHeaders:
+    #   - "x-header-1"
+    # exposeHeaders:
+    #   - "x-header-2"
     allowCredentials: true
 # https://gateway.envoyproxy.io/docs/api/extension_types/#cors

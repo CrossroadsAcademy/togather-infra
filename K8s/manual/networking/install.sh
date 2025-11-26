@@ -97,3 +97,4 @@ echo -e "${GREEN}Gateway resources applied${NC}\n"
 echo -e "${MAGENTA}Applying routes...${NC}\n"
 kubectl apply -f ./routes/
 echo -e "${GREEN}Routes applied${NC}\n"
+echo -e "${YELLOW}Try running  ./verify.sh to see if everything is correctly configured${NC}\n"

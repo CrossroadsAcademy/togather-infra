@@ -1,0 +1,31 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: jwt-auth
+spec:
+  targetSelectors:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      matchLabels:
+        jwt: enabled # this is the label we added to the route that needs jwt auth secutiry
+  jwt:
+    providers:
+      - name: jwt-auth
+        localJWKS:
+          type: ValueRef
+          valueRef:
+            group: ""
+            kind: ConfigMap
+            name: jwt-symmetric-key
+        claimToHeaders:
+          - claim: accountId
+            header: x-jwt-accountId
+          - claim: fullname
+            header: x-jwt-fullname
+          - claim: role
+            header: x-jwt-role
+# https://gateway.envoyproxy.io/docs/tasks/security/jwt-authentication/
+#  we are using symmetric keys  and local secrect management
+
+# You cannot automatically generate headers for every possible field without
+# listing them; the API requires you to enumerate claim→header mappings or use the single forward_payload_header to carry the full JSON payload.

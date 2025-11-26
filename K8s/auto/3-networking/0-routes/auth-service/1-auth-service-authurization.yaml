@@ -1,0 +1,38 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: admin-authorization-jwt-claim
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: auth-service-admin-route
+  jwt:
+    providers:
+      - name: jwt-auth
+        localJWKS:
+          type: ValueRef
+          valueRef:
+            group: ""
+            kind: ConfigMap
+            name: jwt-symmetric-key
+        claimToHeaders:
+          - claim: accountId
+            header: x-jwt-accountId
+          - claim: fullname
+            header: x-jwt-fullname
+          - claim: role
+            header: x-jwt-role
+  authorization:
+    defaultAction: Deny
+    rules:
+      - name: "allow-admin"
+        action: Allow
+        principal:
+          jwt:
+            provider: jwt-auth
+            claims:
+              - name: role
+                valueType: StringArray
+                values: ["ADMIN"]
+# http://gateway.envoyproxy.io/docs/tasks/security/jwt-claim-authorization/#create-a-securitypolicy

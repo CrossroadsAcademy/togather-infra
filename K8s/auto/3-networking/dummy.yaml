@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: dummy-secret-ntwork
-type: Opaque
-stringData:
-  timestamp: "TODO-REPLACE"

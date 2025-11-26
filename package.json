@@ -25,5 +25,8 @@
     "commitizen": {
       "path": "@commitlint/cz-commitlint"
     }
+  },
+  "dependencies": {
+    "togather-infra": "link:"
   }
 }
