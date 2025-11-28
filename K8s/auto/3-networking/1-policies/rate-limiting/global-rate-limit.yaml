@@ -12,12 +12,7 @@ spec:
     type: Local
     local:
       rules:
-        # Per-IP base limit
-        - clientSelectors:
-            - sourceCIDR:
-                value: 0.0.0.0/0
-                type: Distinct
-          limit:
+        - limit:
             requests: 100
             unit: Minute
 # https://gateway.envoyproxy.io/docs/concepts/gateway_api_extensions/backend-traffic-policy/#precedence
