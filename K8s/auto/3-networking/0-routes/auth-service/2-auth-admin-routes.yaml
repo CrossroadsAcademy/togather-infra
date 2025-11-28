@@ -13,11 +13,11 @@ spec:
   rules:
     - matches:
         - path:
-            type: PathPrefix
-            value: /api/v1/auth/admin/2fa/initiate
+            type: RegularExpression
+            value: ^/api/v[0-9a-zA-Z]+/auth/admin/2fa/initiate$
         - path:
-            type: PathPrefix
-            value: /api/v1/auth/admin/2fa/enable
+            type: RegularExpression
+            value: ^/api/v[0-9a-zA-Z]+/auth/admin/2fa/enable$
       backendRefs:
         - name: auth-srv
           port: 3000
