@@ -5,21 +5,20 @@ metadata:
   labels:
     app: togather
     service: auth-srv
+    jwt: enabled
+    ratelimitGlobal: enabled
 spec:
   parentRefs:
     - name: togather-gateway
       namespace: envoy-gateway
-
   rules:
-    - name: admin-protected
-      matches:
+    - matches:
         - path:
             type: PathPrefix
-            value: /api/v1/auth/admin/2fa/initiate
+            value: <path>
         - path:
             type: PathPrefix
-            value: /api/v1/auth/admin/2fa/enable
+            value: <path>
       backendRefs:
         - name: auth-srv
           port: 3000
-# these routes are only allowed for admins
