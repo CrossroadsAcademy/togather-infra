@@ -2,7 +2,9 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: cors
+  namespace: envoy-gateway  # Must be in same namespace as Gateway
 spec:
+  # Target Gateway for CORS on all routes
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
@@ -17,9 +19,12 @@ spec:
       - PATCH
       - DELETE
       - PUT
-    # allowHeaders:
-    #   - "x-header-1"
-    # exposeHeaders:
-    #   - "x-header-2"
+      - OPTIONS
+    allowHeaders:
+      - Authorization
+      - Content-Type
+    exposeHeaders:
+      - x-envoy-upstream-service-time
+      - x-request-id
     allowCredentials: true
 # https://gateway.envoyproxy.io/docs/api/extension_types/#cors
