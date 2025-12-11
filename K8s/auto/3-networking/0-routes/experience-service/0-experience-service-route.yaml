@@ -6,7 +6,6 @@ metadata:
     app: togather
     service: experience-srv
     jwt: enabled
-    cors: enabled
     ratelimitGlobal: enabled # enables ratelimiter
 spec:
   parentRefs:

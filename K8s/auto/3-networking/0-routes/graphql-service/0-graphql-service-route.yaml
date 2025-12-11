@@ -6,7 +6,6 @@ metadata:
     app: togather
     service: graphql-srv
     jwt: enabled
-    cors: enabled
     ratelimitGlobal: enabled
 spec:
   parentRefs:

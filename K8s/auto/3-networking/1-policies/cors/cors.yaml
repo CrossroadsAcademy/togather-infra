@@ -2,7 +2,7 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: cors
-  namespace: envoy-gateway  # Must be in same namespace as Gateway
+  namespace: envoy-gateway
 spec:
   # Target Gateway for CORS on all routes
   targetRefs:
