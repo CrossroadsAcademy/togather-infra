@@ -4,4 +4,3 @@ metadata:
   name: dummy-secret-secret
 type: Opaque
 stringData:
-  timestampsec: "TODO-REPLACE"
