@@ -22,7 +22,7 @@ basic-auth:
 
 
 user-auth:
-	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg  --module togather-notification-cfg
+	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg  --module togather-notification-cfg --module togather-infra-networking
 
 graphql-experience:
 	skaffold dev --module togather-base-infra --module togather-experience-cfg --module togather-graphql-cfg --module togather-auth-cfg
