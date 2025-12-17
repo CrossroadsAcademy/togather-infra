@@ -106,11 +106,26 @@ detect_system_resources() {
     
     log_info "System Resources: ${total_mem}MB RAM, ${cpu_cores} CPU cores"
     
-    if [[ $total_mem -lt 1024 ]]; then
-        log_error "Less than 1GB RAM detected. OpenSearch requires minimum 1GB RAM."
+    if [[ $total_mem -lt 900 ]]; then
+        log_error "Less than 900MB RAM detected. OpenSearch requires minimum 1GB RAM."
+        log_error "Current system has insufficient memory to run OpenSearch safely."
         exit 1
+    elif [[ $total_mem -lt 1100 ]]; then
+        log_warning "═══════════════════════════════════════════════════════════"
+        log_warning "LOW MEMORY MODE: ~1GB RAM detected (${total_mem}MB)"
+        log_warning "Setting ULTRA-LOW heap size (200m) for minimal operation"
+        log_warning "═══════════════════════════════════════════════════════════"
+        log_warning "IMPORTANT:"
+        log_warning "  • Performance will be SEVERELY limited"
+        log_warning "  • Only suitable for testing/development"
+        log_warning "  • NOT recommended for production use"
+        log_warning "  • Consider upgrading to 2GB+ RAM"
+        log_warning "  • Dashboard may be slow to respond"
+        log_warning "═══════════════════════════════════════════════════════════"
+        JVM_HEAP_SIZE="200m"
+        sleep 5  # Give user time to read warnings
     elif [[ $total_mem -lt 2048 ]]; then
-        log_warning "Less than 2GB RAM detected. Setting minimal heap size (256m)."
+        log_warning "Low RAM detected (${total_mem}MB). Setting minimal heap size (256m)."
         log_warning "Performance will be limited. Consider upgrading to 4GB+ for production."
         JVM_HEAP_SIZE="256m"
     elif [[ $total_mem -lt 3072 ]]; then
@@ -390,6 +405,29 @@ EOF
     sed -i "s/^-Xms.*/-Xms${JVM_HEAP_SIZE}/" "$jvm_options"
     sed -i "s/^-Xmx.*/-Xmx${JVM_HEAP_SIZE}/" "$jvm_options"
     
+    # Add low-memory optimizations for systems with <=512m heap
+    if [[ "$JVM_HEAP_SIZE" == "200m" ]] || [[ "$JVM_HEAP_SIZE" == "256m" ]] || [[ "$JVM_HEAP_SIZE" == "512m" ]]; then
+        log_info "Applying low-memory JVM optimizations..."
+        cat >> "$jvm_options" <<'JVMEOF'
+
+## Low-Memory Optimizations (Auto-configured)
+# Use G1GC for better performance with small heaps
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=200
+-XX:InitiatingHeapOccupancyPercent=45
+-XX:G1HeapRegionSize=1M
+
+# Reduce memory overhead
+-XX:+UseStringDeduplication
+-XX:+ParallelRefProcEnabled
+
+# Reduce metaspace for low memory
+-XX:MetaspaceSize=128m
+-XX:MaxMetaspaceSize=256m
+JVMEOF
+        log_success "Low-memory JVM optimizations applied"
+    fi
+    
     log_success "OpenSearch configured for public access"
 }
 
@@ -472,13 +510,46 @@ $OPENSEARCH_USER soft memlock unlimited
 $OPENSEARCH_USER hard memlock unlimited
 EOF
 
-    # Disable swap
-    swapoff -a
-    sed -i '/ swap / s/^/#/' /etc/fstab
+    # Get total memory
+    local total_mem
+    total_mem=$(free -m | awk '/^Mem:/{print $2}')
+    
+    # Disable swap only on systems with >1GB RAM
+    # On 1GB systems, keep swap as safety net to prevent OOM
+    if [[ $total_mem -gt 1100 ]]; then
+        log_info "Disabling swap for better performance..."
+        swapoff -a
+        sed -i '/ swap / s/^/#/' /etc/fstab
+    else
+        log_warning "LOW MEMORY: Keeping swap enabled as safety measure"
+        log_warning "This may impact performance but prevents OOM errors"
+        # Ensure swap exists, create if needed
+        if ! swapon --show | grep -q '/'; then
+            log_info "Creating 1GB swap file for low-memory system..."
+            if [[ ! -f /swapfile ]]; then
+                dd if=/dev/zero of=/swapfile bs=1M count=1024 status=progress
+                chmod 600 /swapfile
+                mkswap /swapfile
+                swapon /swapfile
+                # Add to fstab if not present
+                if ! grep -q '/swapfile' /etc/fstab; then
+                    echo '/swapfile none swap sw 0 0' >> /etc/fstab
+                fi
+                log_success "1GB swap file created and enabled"
+            fi
+        fi
+    fi
     
     # Increase virtual memory
     sysctl -w vm.max_map_count=262144
     echo "vm.max_map_count=262144" >> /etc/sysctl.conf
+    
+    # On low-memory systems, tune swappiness
+    if [[ $total_mem -lt 1100 ]]; then
+        sysctl -w vm.swappiness=10
+        echo "vm.swappiness=10" >> /etc/sysctl.conf
+        log_info "Set vm.swappiness=10 for low-memory optimization"
+    fi
     
     log_success "System limits configured"
 }
@@ -527,6 +598,19 @@ WantedBy=multi-user.target
 EOF
 
     # OpenSearch Dashboards service
+    # Adjust Node.js memory based on system RAM
+    local node_memory="2048"
+    local total_mem
+    total_mem=$(free -m | awk '/^Mem:/{print $2}')
+    
+    if [[ $total_mem -lt 1100 ]]; then
+        node_memory="512"  # Ultra-low for 1GB systems
+        log_info "Setting Dashboard Node.js memory to ${node_memory}MB (low-memory mode)"
+    elif [[ $total_mem -lt 2048 ]]; then
+        node_memory="768"  # Low for <2GB systems
+        log_info "Setting Dashboard Node.js memory to ${node_memory}MB"
+    fi
+    
     cat > /etc/systemd/system/opensearch-dashboards.service <<EOF
 [Unit]
 Description=OpenSearch Dashboards
@@ -538,7 +622,7 @@ After=network-online.target opensearch.service
 Type=simple
 User=$OPENSEARCH_USER
 Group=$OPENSEARCH_GROUP
-Environment=NODE_OPTIONS="--max-old-space-size=2048"
+Environment=NODE_OPTIONS="--max-old-space-size=${node_memory}"
 WorkingDirectory=$DASHBOARDS_HOME
 
 ExecStart=$DASHBOARDS_HOME/bin/opensearch-dashboards

@@ -23,24 +23,24 @@ requires:
   - configs: ["togather-base-infra"]
   - configs: ["togather-auth-cfg"] # includes specific named configs within the file path. If empty, then all configs in the file are included.
     path: ./../togather-auth-service
-  - configs: ["togather-booking-finance-cfg"]
-    path: ./../togather-booking-finance-service
+  # - configs: ["togather-booking-finance-cfg"]
+    # path: ./../togather-booking-finance-service
   - configs: ["togather-chat-cfg"]
     path: ./../togather-chat-service
-  - configs: ["togather-experience-cfg"]
-    path: ./../togather-experience-service
-  - configs: ["togather-feed-cfg"]
-    path: ./../togather-feed-service
-  - configs: ["togather-graphql-cfg"]
-    path: ./../togather-graphql-service
-  - configs: ["togather-location-cfg"]
-    path: ./../togather-location-service
-  - configs: ["togather-notification-cfg"]
-    path: ./../togather-notification-service
-  - configs: ["togather-partner-cfg"]
-    path: ./../togather-partner-service
-  - configs: ["togather-user-cfg"]
-    path: ./../togather-user-service
+  # - configs: ["togather-experience-cfg"]
+    # path: ./../togather-experience-service
+  # - configs: ["togather-feed-cfg"]
+    # path: ./../togather-feed-service
+  # - configs: ["togather-graphql-cfg"]
+     # path: ./../togather-graphql-service
+  # - configs: ["togather-location-cfg"]
+    # path: ./../togather-location-service
+  # - configs: ["togather-notification-cfg"]
+    # path: ./../togather-notification-service
+  # - configs: ["togather-partner-cfg"]
+    # path: ./../togather-partner-service
+  # - configs: ["togather-user-cfg"]
+  #   path: ./../togather-user-service
   - configs: ["togather-websocket-cfg"]
     path: ./../togather-websocket-service
   # or reference remote git configs (see docs/tutorial for remote examples)
