@@ -5,20 +5,21 @@ metadata:
   labels:
     app: togather
     service: user-srv
+    jwt: enabled
+    ratelimitGlobal: enabled # enables ratelimiter
 spec:
   parentRefs:
     - name: togather-gateway
       namespace: envoy-gateway
-  
-  # hostnames:
-  # - "api.togather.com"
-  
+
   rules:
-    - matches:
+    # All other auth routes are public
+    - name: user-private
+      matches:
         - path:
-            type: PathPrefix
-            value: /api/v1/user
-      
+            type: RegularExpression
+            value: ^/api/v[0-9a-zA-Z]+/user/.*
+
       backendRefs:
         - name: user-srv
           port: 3000

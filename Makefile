@@ -12,17 +12,22 @@ help:
 	@echo ""
 	@echo "$(GREEN)Available commands:$(RESET)"
 	@echo ""
-	@echo "  $(BOLD)make basic-auth$(RESET)     - Start basic auth services(Notification, Auth, Base)"
-	@echo "  $(BOLD)make user-auth$(RESET)      - Start user auth services(User, Notification, Auth, Base)"
-	@echo "  $(BOLD)make graphql-experience$(RESET)      - Start graphql experience services(User, Notification, Auth, Base)"
+	@echo "  $(BOLD)make basic-auth$(RESET)            - Start basic auth services(Notification, Auth, Base)"
+	@echo "  $(BOLD)make user-auth$(RESET)             - Start user auth services(User, Notification, Auth, Base)"
+	@echo "  $(BOLD)make graphql-experience$(RESET)    - Start graphql experience services(User, Notification, Auth, Base)"
+	@echo "  $(BOLD)make user-onboarding$(RESET)       - Start full user onboarding services(User, Notification, Auth, Experience, Graphql, Base)"
 	@echo ""
 
 basic-auth:
-	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-notification-cfg
+	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-notification-cfg --module togather-infra-networking
 
 
 user-auth:
-	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg  --module togather-notification-cfg
+	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg  --module togather-notification-cfg --module togather-infra-networking
 
 graphql-experience:
-	skaffold dev --module togather-base-infra --module togather-experience-cfg --module togather-graphql-cfg --module togather-auth-cfg
+	skaffold dev --module togather-base-infra --module togather-experience-cfg --module togather-graphql-cfg --module togather-auth-cfg --module togather-infra-networking
+
+
+user-onboarding:
+	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg --module togather-notification-cfg --module togather-experience-cfg --module togather-graphql-cfg  --module togather-infra-networking
