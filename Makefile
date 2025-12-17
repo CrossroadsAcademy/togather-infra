@@ -15,13 +15,12 @@ help:
 	@echo "  $(BOLD)make basic-auth$(RESET)     - Start basic auth services(Notification, Auth, Base)"
 	@echo "  $(BOLD)make user-auth$(RESET)      - Start user auth services(User, Notification, Auth, Base)"
 	@echo "  $(BOLD)make graphql-experience$(RESET)      - Start graphql experience services(User, Notification, Auth, Base)"
-	@echo "  $(BOLD)make auth-chat-ws$(RESET)      - Start auth chat services(Auth, Chat, Websocket)"
+	@echo "  $(BOLD)make user-onboarding$(RESET)       - Start full user onboarding services(User, Notification, Auth, Experience, Graphql, Base)"
+	@echo "  $(BOLD)make auth-user-chat-ws$(RESET)      - Start auth chat services(Auth, Chat, Websocket)"
 	@echo ""
 
 basic-auth:
 	skaffold dev --module togather-auth-cfg --module togather-notification-cfg --module togather-base-infra --module togather-base-infra
-
-
 
 user-auth:
 	skaffold dev --module togather-auth-cfg --module togather-user-cfg  --module togather-notification-cfg --module togather-base-infra
@@ -29,6 +28,8 @@ user-auth:
 graphql-experience:
 	skaffold dev --module togather-experience-cfg --module togather-graphql-cfg --module togather-auth-cfg --module togather-base-infra
 
+auth-user-chat-ws:
+	skaffold dev --module togather-auth-cfg --module togather-user-cfg --module togather-chat-cfg --module togather-websocket-cfg --module togather-base-infra
 
-auth-chat-ws:
-	skaffold dev --module togather-auth-cfg --module togather-chat-cfg --module togather-websocket-cfg --module togather-base-infra
+user-onboarding:
+	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg --module togather-notification-cfg --module togather-experience-cfg --module togather-graphql-cfg  --module togather-infra-networking
