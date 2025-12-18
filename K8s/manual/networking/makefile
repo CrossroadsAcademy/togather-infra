@@ -93,7 +93,6 @@ verify:
 
 clean:
 	@echo "$(MAGENTA)Removing all resources (keeping CRDs)...$(RESET)"
-	@kubectl delete -f ./routes/ --ignore-not-found
 	@kubectl delete -f ./envoy-gateway/gateway.yaml --ignore-not-found
 	@kubectl delete -f ./envoy-gateway/gateway-class.yaml --ignore-not-found
 	@helm uninstall eg -n $(NAMESPACE) || true
