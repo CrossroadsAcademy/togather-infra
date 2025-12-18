@@ -12,11 +12,11 @@ help:
 	@echo ""
 	@echo "$(GREEN)Available commands:$(RESET)"
 	@echo ""
-	@echo "  $(BOLD)make basic-auth$(RESET)     - Start basic auth services(Notification, Auth, Base)"
-	@echo "  $(BOLD)make user-auth$(RESET)      - Start user auth services(User, Notification, Auth, Base)"
-	@echo "  $(BOLD)make graphql-experience$(RESET)      - Start graphql experience services(User, Notification, Auth, Base)"
-	@echo "  $(BOLD)make user-onboarding$(RESET)       - Start full user onboarding services(User, Notification, Auth, Experience, Graphql, Base)"
-	@echo "  $(BOLD)make auth-user-chat-ws$(RESET)     - Start auth chat websocket services(Auth, User, Chat, Websocket, Base)"
+	@echo "  $(BOLD)make basic-auth$(RESET)      		- Start basic auth services(Notification, Auth, Base)"
+	@echo "  $(BOLD)make user-auth$(RESET)      		- Start user auth services(User, Notification, Auth, Base)"
+	@echo "  $(BOLD)make graphql-experience$(RESET)     - Start graphql experience services(User, Notification, Auth, Base)"
+	@echo "  $(BOLD)make user-onboarding$(RESET)      	- Start full user onboarding services(User, Notification, Auth, Experience, Graphql, Base)"
+	@echo "  $(BOLD)make auth-user-chat-ws$(RESET)      - Start auth chat websocket services(Auth, User, Chat, Websocket, Base)"
 	@echo ""
 
 basic-auth:
