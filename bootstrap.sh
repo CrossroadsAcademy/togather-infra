@@ -20,6 +20,7 @@ REPOS=(
   "https://github.com/CrossroadsAcademy/togather-graphql-service.git"
   "https://github.com/CrossroadsAcademy/togather-notification-service.git" 
   "https://github.com/CrossroadsAcademy/togather-partner-service.git"
+  "https://github.com/CrossroadsAcademy/togather-xsearch-proxy-service.git"
 )
 
 # --- COLORS ---
