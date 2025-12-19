@@ -5,6 +5,7 @@ metadata:
   labels:
     app: togather
     service: websocket-srv
+    jwt: enabled
 spec:
   parentRefs:
     - name: togather-gateway
