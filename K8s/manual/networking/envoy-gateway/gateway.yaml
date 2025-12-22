@@ -12,3 +12,10 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+
+    - name: websocket
+      protocol: HTTP
+      port: 4101
+      allowedRoutes:
+        namespaces:
+          from: All
