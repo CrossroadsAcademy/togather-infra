@@ -10,7 +10,7 @@ spec:
   parentRefs:
     - name: togather-gateway
       namespace: envoy-gateway
-      sectionName: websocket
+      sectionName: http
   
   rules:
     - matches:
