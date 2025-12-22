@@ -39,6 +39,13 @@ spec:
             group: ""
             kind: ConfigMap
             name: jwt-symmetric-key
+        # Extract token from Authorization header OR query param (for WebSocket)
+        extractFrom:
+          headers:
+            - name: Authorization
+              valuePrefix: "Bearer "
+          params:
+            - token
         claimToHeaders:
           - claim: accountId
             header: x-jwt-accountId

@@ -1,25 +1,23 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: auth-service-route
+  name: websocket-service-route
   labels:
     app: togather
-    service: auth-srv
+    service: websocket-srv
+    jwt: enabled
 spec:
   parentRefs:
     - name: togather-gateway
       namespace: envoy-gateway
-  
-  # hostnames:
-  # - "api.togather.com"
+      sectionName: websocket
   
   rules:
-    # Auth endpoints
     - matches:
         - path:
             type: PathPrefix
-            value: /api/v1/auth
+            value: /ws
       
       backendRefs:
-        - name: auth-srv
+        - name: websocket-srv
           port: 3000
