@@ -16,7 +16,7 @@ help:
 	@echo "  $(BOLD)make user-auth$(RESET)      		- Start user auth services(User, Notification, Auth, Base)"
 	@echo "  $(BOLD)make graphql-experience$(RESET)     - Start graphql experience services(User, Notification, Auth, Base)"
 	@echo "  $(BOLD)make user-onboarding$(RESET)      	- Start full user onboarding services(User, Notification, Auth, Experience, Graphql, Base)"
-	@echo "  $(BOLD)make auth-user-chat-ws$(RESET)      - Start auth chat websocket services(Auth, User, Chat, Websocket, Base)"
+	@echo "  $(BOLD)make chat-system$(RESET)      - Start auth chat websocket services(Auth, User, Chat, Websocket, Base)"
 	@echo "  $(BOLD)make create-experience$(RESET)      - Start create experience services(Experience, Graphql, Auth, Base)"
 	@echo ""
 
@@ -32,7 +32,7 @@ graphql-experience:
 create-experience:
 	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-experience-cfg --module togather-graphql-cfg --module togather-infra-networking
 
-auth-user-chat-ws-graphql:
+chat-system:
 	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg --module togather-chat-cfg --module togather-websocket-cfg --module togather-graphql-cfg --module togather-infra-networking
 
 user-onboarding:
