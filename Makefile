@@ -29,11 +29,11 @@ user-auth:
 graphql-experience:
 	skaffold dev --module togather-base-infra --module togather-experience-cfg --module togather-graphql-cfg --module togather-auth-cfg --module togather-infra-networking
 
-auth-user-chat-ws:
-	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg --module togather-chat-cfg --module togather-websocket-cfg --module togather-infra-networking
+create-experience:
+	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-experience-cfg --module togather-graphql-cfg --module togather-infra-networking
+
+auth-user-chat-ws-graphql:
+	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg --module togather-chat-cfg --module togather-websocket-cfg --module togather-graphql-cfg --module togather-infra-networking
 
 user-onboarding:
 	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg --module togather-notification-cfg --module togather-experience-cfg --module togather-graphql-cfg  --module togather-infra-networking
-
-create-experience:
-	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-experience-cfg --module togather-graphql-cfg --module togather-infra-networking
