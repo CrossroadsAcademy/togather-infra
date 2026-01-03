@@ -4,7 +4,7 @@ metadata:
   name: booking-service-route
   labels:
     app: togather
-    service: booking-srv
+    service: booking-finance-srv
     jwt: enabled
     ratelimitGlobal: enabled # enables ratelimiter
 spec:
@@ -20,5 +20,5 @@ spec:
             value: ^/api/v[0-9a-zA-Z]+/booking/.*
 
       backendRefs:
-        - name: booking-srv
-          port: 3007
+        - name: booking-finance-srv
+          port: 3010
