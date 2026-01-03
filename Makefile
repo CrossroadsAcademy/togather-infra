@@ -18,6 +18,8 @@ help:
 	@echo "  $(BOLD)make user-onboarding$(RESET)      	- Start full user onboarding services(User, Notification, Auth, Experience, Graphql, Base)"
 	@echo "  $(BOLD)make chat-system$(RESET)      - Start auth chat websocket services(Auth, User, Chat, Websocket, Base)"
 	@echo "  $(BOLD)make create-experience$(RESET)      - Start create experience services(Experience, Graphql, Auth, Base)"
+	@echo "  $(BOLD)make partner-onboarding$(RESET)      - Start full partner onboarding services(Partner, Notification, Auth, Experience, Graphql, Base)"
+	@echo "  $(BOLD)make feed-service$(RESET)      - Start feed service services(Feed, Graphql, Auth, Base)"
 	@echo ""
 
 basic-auth:
@@ -37,3 +39,7 @@ chat-system:
 
 user-onboarding:
 	skaffold dev --module togather-base-infra --module togather-auth-cfg --module togather-user-cfg --module togather-notification-cfg --module togather-experience-cfg --module togather-graphql-cfg  --module togather-infra-networking
+partner-onboarding:
+	skaffold dev --module togather-base-infra --module togather-partner-cfg --module togather-auth-cfg --module togather-experience-cfg --module togather-graphql-cfg --module togather-infra-networking
+feed-service:
+	skaffold dev --module togather-base-infra --module togather-feed-cfg --module togather-auth-cfg --module togather-user-cfg --module togather-experience-cfg --module togather-graphql-cfg --module togather-partner-cfg --module togather-infra-networking

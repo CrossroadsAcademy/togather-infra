@@ -1,0 +1,24 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: booking-service-route
+  labels:
+    app: togather
+    service: booking-srv
+    jwt: enabled
+    ratelimitGlobal: enabled # enables ratelimiter
+spec:
+  parentRefs:
+    - name: togather-gateway
+      namespace: envoy-gateway
+
+  rules:
+    - name: booking-private
+      matches:
+        - path:
+            type: RegularExpression
+            value: ^/api/v[0-9a-zA-Z]+/booking/.*
+
+      backendRefs:
+        - name: booking-srv
+          port: 3007
