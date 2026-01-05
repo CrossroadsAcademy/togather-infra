@@ -10,7 +10,7 @@ ROOT_DIR="$SCRIPT_DIR/../"
 REPOS=(
   # "https://github.com/CrossroadsAcademy/togather-infra.git"
   "https://github.com/CrossroadsAcademy/togather-user-service.git"
-  "https://github.com/CrossroadsAcademy/togather-location-service.git"
+  # "https://github.com/CrossroadsAcademy/togather-location-service.git"
   "https://github.com/CrossroadsAcademy/togather-experience-service.git"
   "https://github.com/CrossroadsAcademy/togather-websocket-service.git"
   "https://github.com/CrossroadsAcademy/togather-chat-service.git"
