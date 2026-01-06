@@ -45,8 +45,8 @@ requires:
     path: ./../togather-feed-service
   - configs: ["togather-graphql-cfg"]
     path: ./../togather-graphql-service
-  - configs: ["togather-location-cfg"]
-    path: ./../togather-location-service
+  # - configs: ["togather-location-cfg"]
+  #   path: ./../togather-location-service
   - configs: ["togather-notification-cfg"]
     path: ./../togather-notification-service
   - configs: ["togather-partner-cfg"]

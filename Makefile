@@ -12,14 +12,16 @@ help:
 	@echo ""
 	@echo "$(GREEN)Available commands:$(RESET)"
 	@echo ""
-	@echo "  $(BOLD)make basic-auth$(RESET)      		- Start basic auth services(Notification, Auth, Base)"
-	@echo "  $(BOLD)make user-auth$(RESET)      		- Start user auth services(User, Notification, Auth, Base)"
-	@echo "  $(BOLD)make graphql-experience$(RESET)     - Start graphql experience services(User, Notification, Auth, Base)"
-	@echo "  $(BOLD)make user-onboarding$(RESET)      	- Start full user onboarding services(User, Notification, Auth, Experience, Graphql, Base)"
-	@echo "  $(BOLD)make chat-system$(RESET)      - Start auth chat websocket services(Auth, User, Chat, Websocket, Base)"
-	@echo "  $(BOLD)make create-experience$(RESET)      - Start create experience services(Experience, Graphql, Auth, Base)"
-	@echo "  $(BOLD)make partner-onboarding$(RESET)      - Start full partner onboarding services(Partner, Notification, Auth, Experience, Graphql, Base)"
-	@echo "  $(BOLD)make feed-service$(RESET)      - Start feed service services(Feed, Graphql, Auth, Base)"
+	@echo "  $(BOLD)make manage-infisical-secrets$(RESET) - Manage Infisical secrets in K8s cluster"
+	@echo ""
+	@echo "  $(BOLD)make basic-auth$(RESET)      		   - Start basic auth services(Notification, Auth, Base)"
+	@echo "  $(BOLD)make user-auth$(RESET)      		      - Start user auth services(User, Notification, Auth, Base)"
+	@echo "  $(BOLD)make graphql-experience$(RESET)       - Start graphql experience services(User, Notification, Auth, Base)"
+	@echo "  $(BOLD)make user-onboarding$(RESET)          - Start full user onboarding services(User, Notification, Auth, Experience, Graphql, Base)"
+	@echo "  $(BOLD)make chat-system$(RESET)              - Start auth chat websocket services(Auth, User, Chat, Websocket, Base)"
+	@echo "  $(BOLD)make create-experience$(RESET)        - Start create experience services(Experience, Graphql, Auth, Base)"
+	@echo "  $(BOLD)make partner-onboarding$(RESET)       - Start full partner onboarding services(Partner, Notification, Auth, Experience, Graphql, Base)"
+	@echo "  $(BOLD)make feed-service$(RESET)             - Start feed service services(Feed, Graphql, Auth, Base)"
 	@echo ""
 
 basic-auth:
@@ -43,3 +45,6 @@ partner-onboarding:
 	skaffold dev --module togather-base-infra --module togather-partner-cfg --module togather-auth-cfg --module togather-experience-cfg --module togather-graphql-cfg --module togather-infra-networking
 feed-service:
 	skaffold dev --module togather-base-infra --module togather-feed-cfg --module togather-auth-cfg --module togather-user-cfg --module togather-experience-cfg --module togather-graphql-cfg --module togather-partner-cfg --module togather-infra-networking
+
+manage-infisical-secrets:
+	./scripts/setup-infisical-secret.sh
