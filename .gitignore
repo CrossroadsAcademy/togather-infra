@@ -2,3 +2,4 @@ micro-services/
 node_modules/
 .DS_Store
 K8s/auto/0-cluster-scoped/infisical-secret.yaml
+K8s/manual/observability/betterstack/values.yaml
