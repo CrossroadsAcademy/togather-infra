@@ -1,0 +1,1 @@
+# This is a scrit to make sure everything ready and start will help to do tht
