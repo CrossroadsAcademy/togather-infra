@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jwt-symmetric-key
+data:
+  jwks: |
+    {
+      "keys": [
+        {
+          "kty": "oct",   
+          "alg": "HS256",     
+          "k": "BASE64URL ENCODED ACCESS TOKEN SECRET", 
+          "use": "sig"
+        }
+      ]
+    }
+
+# k is for the base64URL encoded of the access token secret
+# then remove the example from the file name
+
+#  this should have been a screct but
+# The localJWKS field is defined to use a LocalObjectReference that points specifically to a ConfigMap,
+#  and the value is read from the jwks key in that ConfigMap
+# https://gateway.envoyproxy.io/docs/api/extension_types/#localjwks

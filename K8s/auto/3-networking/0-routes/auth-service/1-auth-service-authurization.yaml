@@ -1,0 +1,60 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: admin-authorization-jwt-claim
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: auth-service-admin-route
+
+  # CORS must be in same policy as JWT since route-level policies override Gateway-level
+  # CORS filter runs BEFORE JWT, so it handles OPTIONS preflight automatically
+  cors:
+    allowOrigins:
+      - "http://localhost:5173"
+      - "http://localhost:5174"
+    allowMethods:
+      - GET
+      - POST
+      - PATCH
+      - DELETE
+      - PUT
+      - OPTIONS
+    allowHeaders:
+      - Authorization
+      - Content-Type
+    exposeHeaders:
+      - x-envoy-upstream-service-time
+      - x-request-id
+    allowCredentials: true
+
+  jwt:
+    providers:
+      - name: jwt-auth
+        localJWKS:
+          type: ValueRef
+          valueRef:
+            group: ""
+            kind: ConfigMap
+            name: jwt-symmetric-key
+        claimToHeaders:
+          - claim: accountId
+            header: x-jwt-accountId
+          - claim: fullname
+            header: x-jwt-fullname
+          - claim: role
+            header: x-jwt-role
+  authorization:
+    defaultAction: Deny
+    rules:
+      - name: "allow-admin"
+        action: Allow
+        principal:
+          jwt:
+            provider: jwt-auth
+            claims:
+              - name: role
+                valueType: StringArray
+                values: ["ADMIN"]
+# http://gateway.envoyproxy.io/docs/tasks/security/jwt-claim-authorization/#create-a-securitypolicy

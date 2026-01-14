@@ -1,0 +1,30 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: cors
+  namespace: envoy-gateway
+spec:
+  # Target Gateway for CORS on all routes
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: togather-gateway
+  cors:
+    allowOrigins:
+      - "http://localhost:5173"
+      - "http://localhost:5174" # added a backup
+    allowMethods:
+      - GET
+      - POST
+      - PATCH
+      - DELETE
+      - PUT
+      - OPTIONS
+    allowHeaders:
+      - Authorization
+      - Content-Type
+    exposeHeaders:
+      - x-envoy-upstream-service-time
+      - x-request-id
+    allowCredentials: true
+# https://gateway.envoyproxy.io/docs/api/extension_types/#cors

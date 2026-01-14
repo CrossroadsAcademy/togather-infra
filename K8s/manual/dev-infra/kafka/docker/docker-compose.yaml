@@ -1,0 +1,62 @@
+services:
+  kafka:
+    image: apache/kafka:4.0.1
+    container_name: kafka-0
+    hostname: kafka-0
+    ports:
+      - "39092:39092" # SSL
+      - "39093:39093" # SAASL_SSL
+      - "9093:9093" # CONTROLLER_SSL
+    environment:
+      KAFKA_KRAFT_MODE: "true"
+
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-0:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+
+      KAFKA_LISTENERS: INTERNAL_BROKER://0.0.0.0:39092,SASL_SSL://kafka-0:39093,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL_BROKER://kafka-0:39092,SASL_SSL://kafka-0:39093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,SASL_SSL:SASL_SSL,CONTROLLER:SSL,INTERNAL_BROKER:SSL
+      CLUSTER_ID: "6p4FOKXjRPOkKxQYEj1QZQ"
+
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL_BROKER
+
+      KAFKA_SSL_CLIENT_AUTH: requested
+      KAFKA_LISTENER_SSL_SSL_CLIENT_AUTH: none
+      KAFKA_LISTENER_INTERNAL_BROKER_SSL_CLIENT_AUTH: required
+      KAFKA_LISTENER_CONTROLLER_SSL_SSL_CLIENT_AUTH: required
+
+      # SSL Keystore settings
+      KAFKA_SSL_KEYSTORE_FILENAME: kafka.kafka-0.keystore.pkcs12
+      KAFKA_SSL_KEYSTORE_CREDENTIALS: kafka-0_keystore_creds
+      KAFKA_SSL_KEY_CREDENTIALS: kafka-0_sslkey_creds
+      KAFKA_SSL_KEYSTORE_TYPE: PKCS12
+      # SSL Truststore settings
+      KAFKA_SSL_TRUSTSTORE_FILENAME: kafka.kafka-0.truststore.pkcs12
+      KAFKA_SSL_TRUSTSTORE_CREDENTIALS: kafka-0_truststore_creds
+      KAFKA_SSL_TRUSTSTORE_TYPE: PKCS12
+
+      KAFKA_SASL_ENABLED_MECHANISMS: SCRAM-SHA-256
+      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: SCRAM-SHA-256
+
+      # KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SASL_SSL
+
+      KAFKA_OPTS: -Djava.security.auth.login.config=/etc/kafka/secrets/kafka_server_jaas.conf
+
+      KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: ""
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+
+      # Enable for more detailed logging
+      # KAFKA_LOG4J_LOGGERS: "org.apache.kafka.common.security.ssl=DEBUG"
+      KAFKA_HEAP_OPTS: "-Xmx512M -Xms256M"
+
+    volumes:
+      - kafka-0-data:/var/lib/kafka/data
+      - ./kafka-0-creds:/etc/kafka/secrets
+
+volumes:
+  kafka-0-data:
