@@ -1,0 +1,21 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: togather-gateway
+  namespace: envoy-gateway
+spec:
+  gatewayClassName: envoy-gatewayclass
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 4100
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    - name: websocket
+      protocol: HTTP
+      port: 4101
+      allowedRoutes:
+        namespaces:
+          from: All

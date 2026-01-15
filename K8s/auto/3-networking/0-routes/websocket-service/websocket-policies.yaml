@@ -1,0 +1,23 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: websocket-upgrade-policy
+  namespace: default
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: websocket-service-route
+  timeout:
+    http:
+      requestTimeout: "0s" # Disable timeout for long-lived WebSocket connections
+  # Session affinity for Socket.IO - ensures all requests with same session go to same pod
+  loadBalancer:
+    type: ConsistentHash
+    consistentHash:
+      type: Cookie
+      cookie:
+        name: io
+        ttl: 86400s # 24 hours
+        attributes:
+          sameSite: Lax

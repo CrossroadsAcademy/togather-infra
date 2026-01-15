@@ -1,0 +1,23 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: auth-service-admin-route
+  labels:
+    app: togather
+    service: auth-srv
+    ratelimitGlobal: enabled
+spec:
+  parentRefs:
+    - name: togather-gateway
+      namespace: envoy-gateway
+  rules:
+    - matches:
+        - path:
+            type: RegularExpression
+            value: ^/api/v[0-9a-zA-Z]+/auth/admin/2fa/initiate$
+        - path:
+            type: RegularExpression
+            value: ^/api/v[0-9a-zA-Z]+/auth/admin/2fa/enable$
+      backendRefs:
+        - name: auth-srv
+          port: 3000

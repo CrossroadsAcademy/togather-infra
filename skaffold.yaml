@@ -1,0 +1,85 @@
+apiVersion: skaffold/v4beta13
+kind: Config
+metadata:
+  name: togather-base-infra
+
+manifests:
+  rawYaml:
+    - ./K8s/auto/0-cluster-scoped/*
+    - ./K8s/auto/1-infrastructure/*
+
+deploy:
+  kubectl: {}
+
+---
+apiVersion: skaffold/v4beta13
+kind: Config
+metadata:
+  name: togather-infra-networking
+
+manifests:
+  rawYaml:
+    - ./K8s/auto/3-networking/*
+
+deploy:
+  kubectl: {}
+
+---
+apiVersion: skaffold/v4beta13
+kind: Config
+
+metadata:
+  name: togather-dev-infra
+
+requires:
+  - configs: ["togather-base-infra"]
+  - configs: ["togather-auth-cfg"] # includes specific named configs within the file path. If empty, then all configs in the file are included.
+    path: ./../togather-auth-service
+  - configs: ["togather-booking-finance-cfg"]
+    path: ./../togather-booking-finance-service
+  - configs: ["togather-chat-cfg"]
+    path: ./../togather-chat-service
+  - configs: ["togather-experience-cfg"]
+    path: ./../togather-experience-service
+  - configs: ["togather-feed-cfg"]
+    path: ./../togather-feed-service
+  - configs: ["togather-graphql-cfg"]
+    path: ./../togather-graphql-service
+  # - configs: ["togather-location-cfg"]
+  #   path: ./../togather-location-service
+  - configs: ["togather-notification-cfg"]
+    path: ./../togather-notification-service
+  - configs: ["togather-partner-cfg"]
+    path: ./../togather-partner-service
+  - configs: ["togather-user-cfg"]
+    path: ./../togather-user-service
+  - configs: ["togather-websocket-cfg"]
+    path: ./../togather-websocket-service
+  - configs: ["togather-infra-networking"]
+  # or reference remote git configs (see docs/tutorial for remote examples)
+
+manifests:
+  rawYaml: # DB, kafka, redis, etc.
+    - ./K8s/auto/4-observability/*
+
+# build is handled in each module - we can skip this in the orchestration.
+# build:
+#   local:
+#     useDockerCLI: false # use docker command-line interface instead of Docker Engine APIs.
+#     tryImportMissing: false # whether to attempt to import artifacts from Docker (either a local or remote registry) if not in the cache.
+#     concurrency: 1 # how many artifacts can be built concurrently. 0 means "no-limit".
+#     push: false # should images be pushed to a registry.
+#   tagPolicy:
+#     gitCommit: {} #beta: tags images with the git tag or commit of the artifact's workspace(context).
+#   artifacts:
+#     - image: gcr.io/k8s-skaffold/node-example
+#       context: ../togather-user-service # where to look for .docker file (local path)
+#       docker:
+#         dockerfile: Dockerfile.Dev
+#       sync:
+#         manual:
+#           - src: "src/**/*.ts"
+#             dest: .
+
+deploy:
+  kubectl: {}

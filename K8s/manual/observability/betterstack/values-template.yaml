@@ -1,0 +1,16 @@
+vector:
+    customConfig:
+        sinks:
+            better_stack_http_sink:
+                type: http
+                uri: "https://s1673263.eu-nbg-2.betterstackdata.com/"
+                auth:
+                    strategy: bearer
+                    token: <Your_token>
+
+            better_stack_http_metrics_sink:
+                type: http
+                uri: "https://s1673263.eu-nbg-2.betterstackdata.com/metrics"
+                auth:
+                    strategy: bearer
+                    token: <TOUR_TOKEN>
