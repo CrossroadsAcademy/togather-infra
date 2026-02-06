@@ -108,8 +108,11 @@ install_docker() {
 install_k3s() {
     info "Installing K3s (lightweight Kubernetes)..."
     
-    # Install K3s without traefik (we use Envoy Gateway), writable kubeconfig
-    curl -sfL https://get.k3s.io | sh -s - --disable traefik --write-kubeconfig-mode 644
+    # Install K3s with:
+    # --docker: Use Docker as container runtime (so Skaffold-built images are accessible)
+    # --disable traefik: We use Envoy Gateway instead
+    # --write-kubeconfig-mode 644: Allow non-root access to kubeconfig
+    curl -sfL https://get.k3s.io | sh -s - --docker --disable traefik --write-kubeconfig-mode 644
     
     # Wait for K3s to be ready
     sleep 10
@@ -135,7 +138,7 @@ install_k3s() {
     info "Waiting for K3s node to be ready..."
     kubectl wait --for=condition=ready node --all --timeout=120s
     
-    log "K3s installed and running"
+    log "K3s installed and running (using Docker runtime)"
 }
 
 install_kubectl() {
