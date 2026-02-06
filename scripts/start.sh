@@ -177,6 +177,16 @@ install_make() {
     sudo apt-get install -y make
 }
 
+install_k9s() {
+    info "Installing k9s..."
+    
+    # Download latest k9s release
+    K9S_VERSION=$(curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep tag_name | cut -d '"' -f 4)
+    curl -sL "https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_Linux_amd64.tar.gz" | sudo tar xz -C /usr/local/bin k9s
+    
+    log "k9s installed successfully"
+}
+
 install_git() {
     info "Installing git..."
     sudo apt-get install -y git
@@ -231,6 +241,7 @@ main() {
     install_if_missing "pnpm"    "pnpm"        install_pnpm
     install_if_missing "jq"      "jq"          install_jq
     install_if_missing "make"    "make"        install_make
+    install_if_missing "k9s"     "k9s"         install_k9s
     
     # Install K3s if no Kubernetes cluster is available
     if ! kubectl cluster-info &>/dev/null; then
@@ -279,6 +290,11 @@ main() {
     section "Phase 4: Installing Envoy Gateway"
     
     cd "$INFRA_DIR/K8s/manual/networking"
+    
+    # Force install experimental Gateway API CRDs (supports rule names in HTTPRoute)
+    source ./networking.env
+    info "Installing/upgrading Gateway API CRDs (Experimental channel)..."
+    kubectl apply --server-side --force-conflicts -f "https://github.com/kubernetes-sigs/gateway-api/releases/download/${GATEWAY_API_VERSION}/experimental-install.yaml"
     
     chmod +x install.sh
     ./install.sh
