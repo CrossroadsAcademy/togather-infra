@@ -108,17 +108,28 @@ install_docker() {
 install_k3s() {
     info "Installing K3s (lightweight Kubernetes)..."
     
-    # Install K3s with Docker as container runtime
-    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--docker" sh -s -
+    # Install K3s without traefik (we use Envoy Gateway), writable kubeconfig
+    curl -sfL https://get.k3s.io | sh -s - --disable traefik --write-kubeconfig-mode 644
     
     # Wait for K3s to be ready
     sleep 10
     
-    # Set up kubectl config for current user
-    mkdir -p ~/.kube
-    sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-    sudo chown "$USER:$USER" ~/.kube/config
-    chmod 600 ~/.kube/config
+    # Set KUBECONFIG environment variable
+    export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+    
+    # Add KUBECONFIG to bashrc for future sessions
+    if ! grep -q "KUBECONFIG" ~/.bashrc; then
+        echo 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> ~/.bashrc
+    fi
+    
+    # Add kubectl aliases
+    if ! grep -q "alias k=" ~/.bashrc; then
+        echo "# Kubectl aliases" >> ~/.bashrc
+        echo "alias k='kubectl'" >> ~/.bashrc
+        echo "alias kgp='kubectl get pods'" >> ~/.bashrc
+        echo "alias kgs='kubectl get svc'" >> ~/.bashrc
+        echo "alias kga='kubectl get all'" >> ~/.bashrc
+    fi
     
     # Wait for node to be ready
     info "Waiting for K3s node to be ready..."
@@ -187,6 +198,25 @@ install_k9s() {
     log "k9s installed successfully"
 }
 
+install_gh() {
+    info "Installing GitHub CLI..."
+    
+    sudo apt-get install -y gh
+    
+    log "GitHub CLI installed. Run 'gh auth login' to authenticate."
+}
+
+install_cloudflared() {
+    info "Installing cloudflared..."
+    
+    # Download and install cloudflared
+    wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb -O /tmp/cloudflared.deb
+    sudo dpkg -i /tmp/cloudflared.deb
+    rm /tmp/cloudflared.deb
+    
+    log "cloudflared installed. Run 'cloudflared tunnel login' to authenticate."
+}
+
 install_git() {
     info "Installing git..."
     sudo apt-get install -y git
@@ -242,6 +272,8 @@ main() {
     install_if_missing "jq"      "jq"          install_jq
     install_if_missing "make"    "make"        install_make
     install_if_missing "k9s"     "k9s"         install_k9s
+    install_if_missing "gh"      "GitHub CLI"  install_gh
+    install_if_missing "cloudflared" "cloudflared" install_cloudflared
     
     # Install K3s if no Kubernetes cluster is available
     if ! kubectl cluster-info &>/dev/null; then
