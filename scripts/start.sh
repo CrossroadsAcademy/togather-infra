@@ -191,41 +191,15 @@ install_make() {
 install_k9s() {
     info "Installing k9s..."
     
-    # Try snap first (pre-installed on Ubuntu, available on Debian)
-    if command_exists snap; then
-        info "Installing k9s via Snap..."
-        if sudo snap install k9s; then
-            log "k9s installed successfully via Snap"
-            return 0
-        fi
-        warn "Snap installation failed, falling back to binary download..."
-    fi
-    
-    # Fallback: Download binary directly
-    info "Installing k9s via binary download..."
-    
-    # Try to get latest version from GitHub API
-    K9S_VERSION=$(curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep tag_name | cut -d '"' -f 4 || true)
-    
-    # Fallback to known stable version if API fails (rate limiting, etc.)
-    if [[ -z "$K9S_VERSION" ]]; then
-        warn "Could not fetch latest k9s version. Using fallback version."
-        K9S_VERSION="v0.32.7"
-    fi
+    # Use the latest stable version
+    K9S_VERSION="v0.50.18"
     
     info "Downloading k9s ${K9S_VERSION}..."
+    curl -sL "https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_Linux_amd64.tar.gz" -o /tmp/k9s.tar.gz
     
-    if ! curl -sL "https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_Linux_amd64.tar.gz" -o /tmp/k9s.tar.gz; then
-        fail "Failed to download k9s"
-    fi
-    
-    if ! sudo tar xzf /tmp/k9s.tar.gz -C /usr/local/bin k9s; then
-        rm -f /tmp/k9s.tar.gz
-        fail "Failed to extract k9s"
-    fi
-    
+    sudo tar xzf /tmp/k9s.tar.gz -C /usr/local/bin k9s
+    sudo chmod +x /usr/local/bin/k9s
     rm -f /tmp/k9s.tar.gz
-    log "k9s installed successfully"
 }
 
 install_gh() {
