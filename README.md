@@ -1,6 +1,49 @@
-# toGather Infrastructure
+# ToGather Infrastructure
 
 This repository contains the infrastructure configuration for the toGather project. It uses Skaffold to manage the deployment of microservices to a Kubernetes cluster.
+
+## Services
+
+The following microservices are managed by this infrastructure.
+Each service has its own repository and Skaffold configuration and is orchestrated through the root `skaffold.yaml`.
+
+| S.No | Service | Repository |
+|------|----------|-------------|
+| 1 | togather-auth-service | https://github.com/CrossroadsAcademy/togather-auth-service |
+| 2 | togather-user-service | https://github.com/CrossroadsAcademy/togather-user-service |
+| 3 | togather-partner-service | https://github.com/CrossroadsAcademy/togather-partner-service |
+| 4 | togather-websocket-service | https://github.com/CrossroadsAcademy/togather-websocket-service |
+| 5 | togather-notification-service | https://github.com/CrossroadsAcademy/togather-notification-service |
+| 6 | togather-graphql-service | https://github.com/CrossroadsAcademy/togather-graphql-service |
+| 7 | togather-chat-service | https://github.com/CrossroadsAcademy/togather-chat-service |
+| 8 | togather-feed-service | https://github.com/CrossroadsAcademy/togather-feed-service |
+| 9 | togather-experience-service | https://github.com/CrossroadsAcademy/togather-experience-service |
+| 10 | togather-booking-finance-service | https://github.com/CrossroadsAcademy/togather-booking-finance-service |
+| 11 | togather-ml-ranking-service | https://github.com/CrossroadsAcademy/togather-ml-ranking-service |
+| 12 | togather-ml-dev-composition | https://github.com/CrossroadsAcademy/togather-togather-ml-dev-composition |
+| 13 | togather-ml-retrieval-service | https://github.com/CrossroadsAcademy/togather-ml-retrieval-service |
+| 14 | togather-ml-training-pipeline | https://github.com/CrossroadsAcademy/togather-ml-training-pipeline |
+| 15 | togather-ml-feature-pipeline | https://github.com/CrossroadsAcademy/togather-ml-feature-pipeline |
+| 16 | togather-shared-loadtest | https://github.com/CrossroadsAcademy/togather-shared-loadtest |
+
+## Client
+
+The client applications of toGather platform.
+
+| S.No | Client | Repository |
+|------|----------|-------------|
+| 1 | togather-frontend | https://github.com/CrossroadsAcademy/togather-frontend |
+
+## Libraries
+
+The following repositories contain shared libraries, schemas, and utilities used across multiple microservices.
+
+| S.No | Client | Repository |
+|------|----------|-------------|
+| 1 | togather-ml-shared-lib | https://github.com/CrossroadsAcademy/togather-ml-shared-lib |
+| 2 | togather-shared-protos | https://github.com/CrossroadsAcademy/togather-shared-protos |
+| 3 | togather-shared-events | https://github.com/CrossroadsAcademy/togather-shared-events |
+| 4 | togather-shared-utils | https://github.com/CrossroadsAcademy/togather-shared-utils |
 
 ## Prerequisites
 
